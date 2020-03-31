@@ -29,7 +29,7 @@ public class Request {
     private User destProfile;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "ownerProfileId", referencedColumnName = "id")
     private User ownerProfile;
 
     @OneToOne
@@ -40,4 +40,8 @@ public class Request {
     private double purchaseSum;
 
     public Request() {}
+
+    public Long getId() {
+        return id;
+    }
 }
