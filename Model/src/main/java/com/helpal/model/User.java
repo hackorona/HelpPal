@@ -9,7 +9,10 @@ import javax.persistence.*;
 @Table(name = "user_profile")
 public class User {
 
-    private @Id @GeneratedValue Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String name;
     private String email;
     private String phoneNumber;
