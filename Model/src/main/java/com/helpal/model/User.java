@@ -1,5 +1,7 @@
 package com.helpal.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,26 +10,49 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "user_profile")
+@ApiModel(description = "User's details")
 public class User {
 
     @Id
     @GeneratedValue
+    @ApiModelProperty(notes = "Auto generated User-Id")
     private Long id;
 
+    @ApiModelProperty(notes = "User full-name")
     private String name;
+
+    @ApiModelProperty(notes = "User email")
     private String email;
+
+    @ApiModelProperty(notes = "User phone number")
     private String phoneNumber;
+
+    @ApiModelProperty(notes = "User address")
     private String address;
 
     @OneToOne
+    @ApiModelProperty(notes = "User location")
     private Coords coords;
+
+    @ApiModelProperty(notes = "User picture")
     private byte[] image;
 
+    @ApiModelProperty(notes = "User primary language")
     private Languages language;
+
+    @ApiModelProperty(notes = "Allow SMS notifications")
     private boolean smsNotification;
+
+    @ApiModelProperty(notes = "User request count")
     private long cases;
+
+    @ApiModelProperty(notes = "Does user have a badge?")
     private boolean badge;
+
+    @ApiModelProperty(notes = "User birth year")
     private int birthYear;
+
+    @ApiModelProperty(notes = "User encrypted password")
     private String password;
 
     public User() {}
