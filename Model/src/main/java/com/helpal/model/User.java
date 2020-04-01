@@ -30,6 +30,11 @@ public class User {
     private int birthYear;
     private String password;
 
+    public User() {}
+    public User(Long id){
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
@@ -149,5 +154,4 @@ public class User {
     private long score;
     private LocalDateTime lastStatusChanged;
 
-    public User() {}
 }
