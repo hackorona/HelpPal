@@ -1,28 +1,36 @@
 package com.helpal.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "user_profile")
+@Table(name = "user_profile", uniqueConstraints = {@UniqueConstraint(columnNames={"email"})})
 @ApiModel(description = "User's model")
 public class User {
 
     @Id
     @ApiModelProperty(notes = "Auto generated User-Id")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
 
     @ApiModelProperty(notes = "User full-name")
     private String name;
 
     @ApiModelProperty(notes = "User email", required = true)
-    @Basic(optional = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @ApiModelProperty(notes = "User phone number")
@@ -67,10 +75,6 @@ public class User {
 
     public User() {
         this.id = UUID.randomUUID().toString();
-    }
-
-    public User(String id) {
-        this.id = id;
     }
 
     public String getId() {

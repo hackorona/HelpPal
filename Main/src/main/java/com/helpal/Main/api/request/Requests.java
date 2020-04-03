@@ -1,8 +1,15 @@
 package com.helpal.Main.api.request;
 
 import com.helpal.model.Request;
-import com.helpal.model.RequestRepository;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -10,37 +17,39 @@ import java.util.List;
 @RequestMapping("/requests")
 public class Requests {
 
-    private final RequestRepository repository;
+    private RequestService requestService;
 
-    public Requests(RequestRepository repository) {
-        this.repository = repository;
+    public Requests(RequestService requestService) {
+        this.requestService = requestService;
     }
 
     @GetMapping
     public List<Request> getAll() {
-        return repository.findAll();
+        return requestService.getAllRequests();
     }
 
     @PostMapping
     public Request create(@RequestBody Request request) {
-        return repository.save(request);
+        return requestService.saveRequest(request);
     }
 
     @GetMapping("/{id}")
     public Request getOne(@PathVariable String id) {
-        return repository.findById(id)
+        return requestService.getRequestById(id)
                 .orElseThrow(() -> new RequestNotFoundException(id));
     }
 
-    @PutMapping()
-    public Request replace(@RequestBody Request request) {
-        return repository.findById(request.getId())
-                .map(existingRequest -> repository.save(request))
+    @PutMapping
+    public Request update(@RequestBody Request request) {
+        return requestService.getRequestById(request.getId())
+                .map(existingRequest -> requestService.saveRequest(request))
                 .orElseThrow(() -> new RequestNotFoundException(request.getId()));
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable String id) {
-        repository.deleteById(id);
+    public ResponseEntity<String> delete(@PathVariable String id) {
+        requestService.deleteRequest(id);
+
+        return ResponseEntity.ok("deleted");
     }
 }

@@ -1,25 +1,34 @@
 package com.helpal.Main.api.user;
 
 import com.helpal.model.User;
-import com.helpal.model.UserRepository;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
 @Api(value = "Users Management API")
 public class Users {
 
-    private final UserRepository repository;
+    private UserService userService;
 
-    public Users(UserRepository repository) {
-        this.repository = repository;
+    public Users(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
@@ -28,7 +37,7 @@ public class Users {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
     })
     List<User> getAll() {
-        return repository.findAll();
+        return userService.getAllUsers();
     }
 
     @PostMapping()
@@ -37,7 +46,7 @@ public class Users {
             @ApiParam(value = "User object to create", required = true)
             @Valid
             @RequestBody User user) {
-        return ResponseEntity.ok(repository.save(user));
+        return ResponseEntity.ok(userService.saveUser(user));
     }
 
     @GetMapping("/{id}")
@@ -50,7 +59,7 @@ public class Users {
             @ApiParam(value = "Id of the User to be retrieved", required = true)
             @PathVariable String id)
             throws UserNotFoundException {
-        return ResponseEntity.ok(repository.findById(id)
+        return ResponseEntity.ok(userService.findUserById(id)
                 .orElseThrow(() -> new UserNotFoundException(id)));
     }
 
@@ -60,9 +69,9 @@ public class Users {
             @ApiResponse(code = 200, message = "Successfully retrieved User"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    ResponseEntity<User> getOneByEmail(@RequestParam("email") String email) throws UserNotFoundException{
-        return ResponseEntity.ok(repository.getUserByEmail(email)
-                .orElseThrow(()->new UserNotFoundException(email)));
+    ResponseEntity<User> getOneByEmail(@RequestParam("email") String email) throws UserNotFoundException {
+        return ResponseEntity.ok(userService.findUserByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email)));
     }
 
     @PutMapping()
@@ -76,8 +85,8 @@ public class Users {
             @Valid
             @RequestBody User user)
             throws UserNotFoundException {
-        final User updatedUser = repository.findById(user.getId())
-                .map(existingUser -> repository.save(user))
+        final User updatedUser = userService.findUserById(user.getId())
+                .map(existingUser -> userService.saveUser(user))
                 .orElseThrow(() -> new UserNotFoundException(user.getId()));
         return ResponseEntity.ok(updatedUser);
     }
@@ -89,15 +98,11 @@ public class Users {
             @ApiResponse(code = 200, message = "Successfully deleted the User"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    ResponseEntity<String> delete(
+    ResponseEntity<String> deleteById(
             @ApiParam(value = "Id of the User to be deleted", required = true)
             @PathVariable String id)
             throws UserNotFoundException {
-        {
-            repository.findById(id)
-                    .orElseThrow(() -> new UserNotFoundException(id));
-            repository.deleteById(id);
-            return ResponseEntity.ok("deleted");
-        }
+        userService.deleteUserById(id);
+        return ResponseEntity.ok("deleted");
     }
 }

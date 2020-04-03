@@ -1,5 +1,6 @@
 package com.helpal.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class Request {
 
     @Id
     @ApiModelProperty(notes = "Auto generated Request-Id")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
 
     @ApiModelProperty(notes = "Category")
