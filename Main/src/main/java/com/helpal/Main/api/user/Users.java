@@ -13,12 +13,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
-@Api(value="Users Management API")
+@Api(value = "Users Management API")
 public class Users {
 
     private final UserRepository repository;
 
-    public Users(UserRepository repository){
+    public Users(UserRepository repository) {
         this.repository = repository;
     }
 
@@ -27,7 +27,7 @@ public class Users {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
     })
-    List<User> getAll(){
+    List<User> getAll() {
         return repository.findAll();
     }
 
@@ -51,7 +51,18 @@ public class Users {
             @PathVariable String id)
             throws UserNotFoundException {
         return ResponseEntity.ok(repository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException(id)));
+                .orElseThrow(() -> new UserNotFoundException(id)));
+    }
+
+    @GetMapping(value = "/email", params = {"email"})
+    @ApiOperation(value = "Retrieve a new User by email")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved User"),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    ResponseEntity<User> getOneByEmail(@RequestParam("email") String email) throws UserNotFoundException{
+        return ResponseEntity.ok(repository.getUserByEmail(email)
+                .orElseThrow(()->new UserNotFoundException(email)));
     }
 
     @PutMapping()
@@ -61,14 +72,14 @@ public class Users {
             @ApiResponse(code = 404, message = "User not found")
     })
     ResponseEntity<User> update(
-        @ApiParam(value = "User object to update", required = true)
-        @Valid
-        @RequestBody User user)
+            @ApiParam(value = "User object to update", required = true)
+            @Valid
+            @RequestBody User user)
             throws UserNotFoundException {
-            final User updatedUser = repository.findById(user.getId())
-                    .map(existingUser -> repository.save(user))
-                    .orElseThrow(() -> new UserNotFoundException(user.getId()));
-            return ResponseEntity.ok(updatedUser);
+        final User updatedUser = repository.findById(user.getId())
+                .map(existingUser -> repository.save(user))
+                .orElseThrow(() -> new UserNotFoundException(user.getId()));
+        return ResponseEntity.ok(updatedUser);
     }
 
 
@@ -79,8 +90,8 @@ public class Users {
             @ApiResponse(code = 404, message = "User not found")
     })
     ResponseEntity<String> delete(
-        @ApiParam(value = "Id of the User to be deleted", required = true)
-        @PathVariable String id)
+            @ApiParam(value = "Id of the User to be deleted", required = true)
+            @PathVariable String id)
             throws UserNotFoundException {
         {
             repository.findById(id)
