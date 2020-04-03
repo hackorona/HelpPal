@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "user_profile")
-@ApiModel(description = "User's details")
+@ApiModel(description = "User's model")
 public class User {
 
     @Id
@@ -54,6 +54,12 @@ public class User {
 
     @ApiModelProperty(notes = "User encrypted password")
     private String password;
+
+    @ApiModelProperty(notes = "User credibility score")
+    private Long score = 0L;
+
+    @ApiModelProperty(notes = "Last status chage time")
+    private LocalDateTime lastStatusChanged;
 
     public User() {}
     public User(Long id){
@@ -160,11 +166,11 @@ public class User {
         this.password = password;
     }
 
-    public long getScore() {
+    public Long getScore() {
         return score;
     }
 
-    public void setScore(long score) {
+    public void setScore(Long score) {
         this.score = score;
     }
 
@@ -176,7 +182,6 @@ public class User {
         this.lastStatusChanged = lastStatusChanged;
     }
 
-    private long score;
-    private LocalDateTime lastStatusChanged;
+
 
 }

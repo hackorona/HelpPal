@@ -1,6 +1,6 @@
 package com.helpal.model;
 
-public enum Priorities {
+public enum Priority {
     HIGH,
     MEDIUM,
     LOW,

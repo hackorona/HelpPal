@@ -1,5 +1,7 @@
 package com.helpal.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,35 +10,56 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "request")
+@ApiModel(description = "Request's model")
 public class Request {
 
     @Id
     @GeneratedValue
+    @ApiModelProperty(notes = "Auto generated User-Id")
     private Long id;
 
+    @ApiModelProperty(notes = "Category")
     private Cetegories category;
-    private Priorities priority;
+
+    @ApiModelProperty(notes = "Priority")
+    private Priority priority;
 
     @OneToOne
+    @ApiModelProperty(notes = "Coordinates")
     private Coords location;
 
+    @ApiModelProperty(notes = "Request description")
     private String description;
+
+    @ApiModelProperty(notes = "Should request only be opened to previous helpers")
     private boolean onlyPreviousHelpers = false;
+
+    @ApiModelProperty(notes = "User full-name")
     private LocalDateTime created;
+
+    @ApiModelProperty(notes = "Request status")
     private RequestStatus status;
 
+    @ApiModelProperty(notes = "Request's destination user profile")
     @OneToOne
     private User destProfile;
 
+    @ApiModelProperty(notes = "Request creator user profile")
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private User ownerProfile;
 
+    @ApiModelProperty(notes = "3rd Party User profile")
     @OneToOne
     private User responderProfile;
 
+    @ApiModelProperty(notes = "Shopping bag receipt's photo")
     private byte[] billPhoto;
+
+    @ApiModelProperty(notes = "Shopping bag photo")
     private byte[] bagsPhoto;
+
+    @ApiModelProperty(notes = "Purchase amount")
     private double purchaseSum = 0D;
 
     public Request() {
@@ -54,11 +77,11 @@ public class Request {
         this.category = category;
     }
 
-    public Priorities getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(Priorities priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
