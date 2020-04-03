@@ -27,7 +27,7 @@ public class Requests {
     }
 
     @GetMapping("/{id}")
-    public Request getOne(@PathVariable Long id) {
+    public Request getOne(@PathVariable String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RequestNotFoundException(id));
     }
@@ -40,7 +40,7 @@ public class Requests {
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id) {
+    void delete(@PathVariable String id) {
         repository.deleteById(id);
     }
 }

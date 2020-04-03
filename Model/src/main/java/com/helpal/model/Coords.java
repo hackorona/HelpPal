@@ -6,20 +6,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "COORDS")
 public class Coords {
     @Id
-    @GeneratedValue
-    private long id;
-    private double lat;
-    private double lon;
+    private String id;
+    private Double lat;
+    private Double lon;
 
-    public Coords(){}
+    public Coords(){
+        this.id = UUID.randomUUID().toString();
+    }
 
     public Coords(double lat, double lon) {
+        this();
         this.lat = lat;
         this.lon = lon;
     }

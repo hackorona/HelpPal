@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -14,9 +15,8 @@ import java.time.LocalDateTime;
 public class Request {
 
     @Id
-    @GeneratedValue
-    @ApiModelProperty(notes = "Auto generated User-Id")
-    private Long id;
+    @ApiModelProperty(notes = "Auto generated Request-Id")
+    private String id;
 
     @ApiModelProperty(notes = "Category")
     private Cetegories category;
@@ -44,7 +44,7 @@ public class Request {
     @OneToOne
     private User destProfile;
 
-    @ApiModelProperty(notes = "Request creator user profile")
+    @ApiModelProperty(notes = "Request creator user profile", required = true)
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private User ownerProfile;
@@ -63,9 +63,10 @@ public class Request {
     private double purchaseSum = 0D;
 
     public Request() {
+        this.id = UUID.randomUUID().toString();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

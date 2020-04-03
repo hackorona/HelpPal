@@ -48,7 +48,7 @@ public class Users {
     })
     ResponseEntity<User> getOne(
             @ApiParam(value = "Id of the User to be retrieved", required = true)
-            @PathVariable Long id)
+            @PathVariable String id)
             throws UserNotFoundException {
         return ResponseEntity.ok(repository.findById(id)
             .orElseThrow(() -> new UserNotFoundException(id)));
@@ -80,7 +80,7 @@ public class Users {
     })
     ResponseEntity<String> delete(
         @ApiParam(value = "Id of the User to be deleted", required = true)
-        @PathVariable Long id)
+        @PathVariable String id)
             throws UserNotFoundException {
         {
             repository.findById(id)

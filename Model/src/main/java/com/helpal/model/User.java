@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -14,14 +15,14 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    @GeneratedValue
     @ApiModelProperty(notes = "Auto generated User-Id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(notes = "User full-name")
     private String name;
 
-    @ApiModelProperty(notes = "User email")
+    @ApiModelProperty(notes = "User email", required = true)
+    @Basic(optional = false)
     private String email;
 
     @ApiModelProperty(notes = "User phone number")
@@ -30,7 +31,7 @@ public class User {
     @ApiModelProperty(notes = "User address")
     private String address;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @ApiModelProperty(notes = "User location")
     private Coords coords;
 
@@ -38,13 +39,13 @@ public class User {
     private byte[] image;
 
     @ApiModelProperty(notes = "User primary language")
-    private Languages language;
+    private Languages language = Languages.ENGLISH;
 
     @ApiModelProperty(notes = "Allow SMS notifications")
-    private boolean smsNotification;
+    private boolean smsNotification = true;
 
     @ApiModelProperty(notes = "User request count")
-    private long cases;
+    private Long cases;
 
     @ApiModelProperty(notes = "Does user have a badge?")
     private boolean badge;
@@ -59,14 +60,16 @@ public class User {
     private Long score = 0L;
 
     @ApiModelProperty(notes = "Last status chage time")
-    private LocalDateTime lastStatusChanged;
+    private LocalDateTime lastStatusChanged = LocalDateTime.now();
 
-    public User() {}
-    public User(Long id){
+    public User() {
+        this.id = UUID.randomUUID().toString();
+    }
+    public User(String id){
         this.id = id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
