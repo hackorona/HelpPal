@@ -23,7 +23,7 @@ public class Request {
     private String description;
     private boolean onlyPreviousHelpers = false;
     private LocalDateTime created;
-    private RequestStatuses status;
+    private RequestStatus status;
 
     @OneToOne
     private User destProfile;
@@ -37,17 +37,13 @@ public class Request {
 
     private byte[] billPhoto;
     private byte[] bagsPhoto;
-    private double purchaseSum = 0;
+    private double purchaseSum = 0D;
 
     public Request() {
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Cetegories getCategory() {
@@ -98,11 +94,11 @@ public class Request {
         this.created = created;
     }
 
-    public RequestStatuses getStatus() {
+    public RequestStatus getStatus() {
         return status;
     }
 
-    public void setStatus(RequestStatuses status) {
+    public void setStatus(RequestStatus status) {
         this.status = status;
     }
 

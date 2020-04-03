@@ -1,6 +1,6 @@
 package com.helpal.model;
 
-public enum RequestStatuses {
+public enum RequestStatus {
     OPEN,
     ASSIGNED,
     IN_PROGRESS,
