@@ -62,10 +62,14 @@ public class User {
     @ApiModelProperty(notes = "Last status chage time")
     private LocalDateTime lastStatusChanged = LocalDateTime.now();
 
+    @ApiModelProperty(notes = "Is the User a confirmed Covid-19 patient")
+    private Boolean isConfirmedCovid19 = false;
+
     public User() {
         this.id = UUID.randomUUID().toString();
     }
-    public User(String id){
+
+    public User(String id) {
         this.id = id;
     }
 
@@ -185,6 +189,15 @@ public class User {
         this.lastStatusChanged = lastStatusChanged;
     }
 
+    public void setCases(Long cases) {
+        this.cases = cases;
+    }
 
+    public Boolean getConfirmedCovid19() {
+        return isConfirmedCovid19;
+    }
 
+    public void setConfirmedCovid19(Boolean confirmedCovid19) {
+        isConfirmedCovid19 = confirmedCovid19;
+    }
 }
