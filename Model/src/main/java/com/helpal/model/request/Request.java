@@ -1,6 +1,5 @@
 package com.helpal.model.request;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.helpal.model.coord.Coord;
 import com.helpal.model.user.User;
@@ -8,7 +7,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
@@ -18,11 +22,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "request")
 @ApiModel(description = "Request's model")
-public class Request {
+public class Request implements Serializable {
 
     @Id
     @ApiModelProperty(notes = "Auto generated Request-Id")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private String id;
 
     @ApiModelProperty(notes = "Category")
@@ -48,18 +52,18 @@ public class Request {
     private RequestStatus status;
 
     @ApiModelProperty(notes = "Request's destination user profile")
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dest_profile_id", referencedColumnName = "id")
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id", nullable = false)
     private User destProfile;
 
     @ApiModelProperty(notes = "Request creator user profile", required = true)
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="owner_profile_id" , referencedColumnName = "id", nullable = false)
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id", nullable = false)
     private User ownerProfile;
 
     @ApiModelProperty(notes = "3rd Party User profile")
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="responder_profile_id" , referencedColumnName = "id", nullable = false)
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id", nullable = false)
     private User responderProfile;
 
     @ApiModelProperty(notes = "Shopping bag receipt's photo")
@@ -185,35 +189,5 @@ public class Request {
 
     public void setPurchaseSum(double purchaseSum) {
         this.purchaseSum = purchaseSum;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Request request = (Request) o;
-        return onlyPreviousHelpers == request.onlyPreviousHelpers &&
-                Double.compare(request.purchaseSum, purchaseSum) == 0 &&
-                Objects.equals(id, request.id) &&
-                category == request.category &&
-                priority == request.priority &&
-                Objects.equals(location, request.location) &&
-                Objects.equals(description, request.description) &&
-                Objects.equals(created, request.created) &&
-                status == request.status &&
-                Objects.equals(destProfile, request.destProfile) &&
-                Objects.equals(ownerProfile, request.ownerProfile) &&
-                Objects.equals(responderProfile, request.responderProfile) &&
-                Arrays.equals(billPhoto, request.billPhoto) &&
-                Arrays.equals(bagsPhoto, request.bagsPhoto);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(id, category, priority, location, description, onlyPreviousHelpers, created, status
-                , destProfile, ownerProfile, responderProfile, purchaseSum);
-        result = 31 * result + Arrays.hashCode(billPhoto);
-        result = 31 * result + Arrays.hashCode(bagsPhoto);
-        return result;
     }
 }

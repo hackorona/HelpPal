@@ -8,25 +8,27 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "user_profile", uniqueConstraints = {@UniqueConstraint(columnNames={"email"})})
+@Table(name = "user_profile", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 @ApiModel(description = "User's model")
-public class User {
+public class User implements Serializable {
 
     @Id
     @ApiModelProperty(notes = "Auto generated User-Id")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private String id;
 
     @ApiModelProperty(notes = "User full-name")
@@ -42,7 +44,7 @@ public class User {
     @ApiModelProperty(notes = "User address")
     private String address;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     @ApiModelProperty(notes = "User location")
     private Coord coord;
 
@@ -82,6 +84,10 @@ public class User {
 //    public User(String id){
 //        this.id = id;
 //    }
+
+    public User(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;
@@ -209,5 +215,58 @@ public class User {
 
     public void setConfirmedCovid19(Boolean confirmedCovid19) {
         isConfirmedCovid19 = confirmedCovid19;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return smsNotification == user.smsNotification &&
+                badge == user.badge &&
+                birthYear == user.birthYear &&
+                Objects.equals(id, user.id) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(phoneNumber, user.phoneNumber) &&
+                Objects.equals(address, user.address) &&
+                Objects.equals(coords, user.coords) &&
+                Arrays.equals(image, user.image) &&
+                language == user.language &&
+                Objects.equals(cases, user.cases) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(score, user.score) &&
+                Objects.equals(lastStatusChanged, user.lastStatusChanged) &&
+                Objects.equals(isConfirmedCovid19, user.isConfirmedCovid19);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, name, email, phoneNumber, address, coords, language, smsNotification, cases,
+                badge, birthYear, password, score, lastStatusChanged, isConfirmedCovid19);
+        result = 31 * result + Arrays.hashCode(image);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", coords=" + coords +
+                ", image=" + Arrays.toString(image) +
+                ", language=" + language +
+                ", smsNotification=" + smsNotification +
+                ", cases=" + cases +
+                ", badge=" + badge +
+                ", birthYear=" + birthYear +
+                ", password='" + password + '\'' +
+                ", score=" + score +
+                ", lastStatusChanged=" + lastStatusChanged +
+                ", isConfirmedCovid19=" + isConfirmedCovid19 +
+                '}';
     }
 }
