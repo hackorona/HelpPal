@@ -45,8 +45,8 @@ public class Request implements Serializable {
     @ApiModelProperty(notes = "Should request only be opened to previous helpers")
     private boolean onlyPreviousHelpers = false;
 
-    @ApiModelProperty(notes = "User full-name")
-    private LocalDateTime created;
+    @ApiModelProperty(notes = "Request creation time")
+    private LocalDateTime created = LocalDateTime.now();
 
     @ApiModelProperty(notes = "Request status")
     private RequestStatus status;
