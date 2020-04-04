@@ -26,15 +26,15 @@ public class UserService {
         return retVal;
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return repository.findAll();
     }
 
-    public Optional<User> findUserById(String id){
+    public Optional<User> findUserById(String id) {
         return repository.findById(id);
     }
 
-    public Optional<User> findUserByEmail(String email){
+    public Optional<User> findUserByEmail(String email) {
         return repository.getUserByEmail(email);
     }
 

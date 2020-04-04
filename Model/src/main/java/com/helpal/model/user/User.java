@@ -1,13 +1,12 @@
 package com.helpal.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.helpal.model.coord.Coord;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -44,7 +43,7 @@ public class User implements Serializable {
     @ApiModelProperty(notes = "User address")
     private String address;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @ApiModelProperty(notes = "User location")
     private Coord coord;
 

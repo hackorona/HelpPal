@@ -37,7 +37,7 @@ public class Request implements Serializable {
 
     @OneToOne
     @ApiModelProperty(notes = "Coordinates")
-    private Coord location;
+    private Coord coord;
 
     @ApiModelProperty(notes = "Request description")
     private String description;
@@ -79,7 +79,7 @@ public class Request implements Serializable {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Request(String id){
+    public Request(String id) {
         this.id = id;
     }
 
@@ -103,12 +103,12 @@ public class Request implements Serializable {
         this.priority = priority;
     }
 
-    public Coord getLocation() {
-        return location;
+    public Coord getCoord() {
+        return coord;
     }
 
-    public void setLocation(Coord location) {
-        this.location = location;
+    public void setCoord(Coord location) {
+        this.coord = location;
     }
 
     public String getDescription() {
@@ -201,7 +201,7 @@ public class Request implements Serializable {
                 Objects.equals(id, request.id) &&
                 category == request.category &&
                 priority == request.priority &&
-                Objects.equals(location, request.location) &&
+                Objects.equals(coord, request.coord) &&
                 Objects.equals(description, request.description) &&
                 Objects.equals(created, request.created) &&
                 status == request.status &&
@@ -214,7 +214,7 @@ public class Request implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, category, priority, location, description, onlyPreviousHelpers, created, status
+        int result = Objects.hash(id, category, priority, coord, description, onlyPreviousHelpers, created, status
                 , destProfile, ownerProfile, responderProfile, purchaseSum);
         result = 31 * result + Arrays.hashCode(billPhoto);
         result = 31 * result + Arrays.hashCode(bagsPhoto);
