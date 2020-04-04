@@ -1,7 +1,7 @@
 package com.helpal.Main.api.user;
 
-import com.helpal.model.User;
-import com.helpal.model.UserRepository;
+import com.helpal.model.user.User;
+import com.helpal.model.user.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 

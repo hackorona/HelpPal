@@ -1,6 +1,6 @@
 package com.helpal.Main.api.user;
 
-import com.helpal.model.User;
+import com.helpal.model.user.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

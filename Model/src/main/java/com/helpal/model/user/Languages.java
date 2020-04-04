@@ -1,4 +1,4 @@
-package com.helpal.model;
+package com.helpal.model.user;
 
 public enum Languages {
     ENGLISH,

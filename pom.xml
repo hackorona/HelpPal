@@ -19,6 +19,7 @@
     <modules>
         <module>Main</module>
         <module>Model</module>
+        <module>geospatial</module>
     </modules>
 
     <dependencies>

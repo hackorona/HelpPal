@@ -1,12 +1,17 @@
-package com.helpal.model;
+package com.helpal.model.request;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.helpal.model.coord.Coord;
+import com.helpal.model.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 @Data
@@ -28,7 +33,7 @@ public class Request {
 
     @OneToOne
     @ApiModelProperty(notes = "Coordinates")
-    private Coords location;
+    private Coord location;
 
     @ApiModelProperty(notes = "Request description")
     private String description;
@@ -43,16 +48,18 @@ public class Request {
     private RequestStatus status;
 
     @ApiModelProperty(notes = "Request's destination user profile")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dest_profile_id", referencedColumnName = "id")
     private User destProfile;
 
     @ApiModelProperty(notes = "Request creator user profile", required = true)
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(referencedColumnName = "id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="owner_profile_id" , referencedColumnName = "id", nullable = false)
     private User ownerProfile;
 
     @ApiModelProperty(notes = "3rd Party User profile")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="responder_profile_id" , referencedColumnName = "id", nullable = false)
     private User responderProfile;
 
     @ApiModelProperty(notes = "Shopping bag receipt's photo")
@@ -66,6 +73,10 @@ public class Request {
 
     public Request() {
         this.id = UUID.randomUUID().toString();
+    }
+
+    public Request(String id){
+        this.id = id;
     }
 
     public String getId() {
@@ -88,11 +99,11 @@ public class Request {
         this.priority = priority;
     }
 
-    public Coords getLocation() {
+    public Coord getLocation() {
         return location;
     }
 
-    public void setLocation(Coords location) {
+    public void setLocation(Coord location) {
         this.location = location;
     }
 
@@ -174,5 +185,35 @@ public class Request {
 
     public void setPurchaseSum(double purchaseSum) {
         this.purchaseSum = purchaseSum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request request = (Request) o;
+        return onlyPreviousHelpers == request.onlyPreviousHelpers &&
+                Double.compare(request.purchaseSum, purchaseSum) == 0 &&
+                Objects.equals(id, request.id) &&
+                category == request.category &&
+                priority == request.priority &&
+                Objects.equals(location, request.location) &&
+                Objects.equals(description, request.description) &&
+                Objects.equals(created, request.created) &&
+                status == request.status &&
+                Objects.equals(destProfile, request.destProfile) &&
+                Objects.equals(ownerProfile, request.ownerProfile) &&
+                Objects.equals(responderProfile, request.responderProfile) &&
+                Arrays.equals(billPhoto, request.billPhoto) &&
+                Arrays.equals(bagsPhoto, request.bagsPhoto);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, category, priority, location, description, onlyPreviousHelpers, created, status
+                , destProfile, ownerProfile, responderProfile, purchaseSum);
+        result = 31 * result + Arrays.hashCode(billPhoto);
+        result = 31 * result + Arrays.hashCode(bagsPhoto);
+        return result;
     }
 }

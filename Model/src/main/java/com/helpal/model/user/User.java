@@ -1,6 +1,9 @@
-package com.helpal.model;
+package com.helpal.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.helpal.model.coord.Coord;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,7 +44,7 @@ public class User {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @ApiModelProperty(notes = "User location")
-    private Coords coords;
+    private Coord coord;
 
     @ApiModelProperty(notes = "User picture")
     private byte[] image;
@@ -76,6 +79,9 @@ public class User {
     public User() {
         this.id = UUID.randomUUID().toString();
     }
+//    public User(String id){
+//        this.id = id;
+//    }
 
     public String getId() {
         return id;
@@ -113,12 +119,12 @@ public class User {
         this.address = address;
     }
 
-    public Coords getCoords() {
-        return coords;
+    public Coord getCoord() {
+        return coord;
     }
 
-    public void setCoords(Coords coords) {
-        this.coords = coords;
+    public void setCoord(Coord coord) {
+        this.coord = coord;
     }
 
     public byte[] getImage() {

@@ -21,5 +21,11 @@
             <version>1.16.16</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.helpal</groupId>
+            <artifactId>geospatial</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

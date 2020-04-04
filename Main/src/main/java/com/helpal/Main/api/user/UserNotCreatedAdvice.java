@@ -13,7 +13,7 @@ public class UserNotCreatedAdvice {
     @ResponseBody
     @ExceptionHandler(UserNotCreatedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String userNotCreatedHandler(UserNotCreatedException ex) {
+    public String userNotCreatedHandler(UserNotCreatedException ex) {
         return ex.getMessage();
     }
 }

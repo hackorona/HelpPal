@@ -13,7 +13,7 @@ public class RequestNotFoundAdvice {
     @ResponseBody
     @ExceptionHandler(RequestNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String requestNotFoundHandler(RequestNotFoundException ex) {
+    public String requestNotFoundHandler(RequestNotFoundException ex) {
         return ex.getMessage();
     }
 }
