@@ -14,15 +14,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "coord")
-public class Coord {
+public class Coord implements Serializable {
     @Id
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private String id;
 
     @OneToMany(cascade = {CascadeType.ALL})
@@ -34,6 +36,10 @@ public class Coord {
 
     public Coord() {
         this.id = UUID.randomUUID().toString();
+    }
+
+    public Coord(String id){
+        this.id = id;
     }
 
     public Coord(Double lat, Double lon) {
@@ -68,5 +74,21 @@ public class Coord {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coord coord = (Coord) o;
+        return Double.compare(coord.x, x) == 0 &&
+                Double.compare(coord.y, y) == 0 &&
+                Objects.equals(id, coord.id) &&
+                Objects.equals(requests, coord.requests);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, requests, x, y);
     }
 }

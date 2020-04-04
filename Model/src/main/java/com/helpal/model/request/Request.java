@@ -190,4 +190,34 @@ public class Request implements Serializable {
     public void setPurchaseSum(double purchaseSum) {
         this.purchaseSum = purchaseSum;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request request = (Request) o;
+        return onlyPreviousHelpers == request.onlyPreviousHelpers &&
+                Double.compare(request.purchaseSum, purchaseSum) == 0 &&
+                Objects.equals(id, request.id) &&
+                category == request.category &&
+                priority == request.priority &&
+                Objects.equals(location, request.location) &&
+                Objects.equals(description, request.description) &&
+                Objects.equals(created, request.created) &&
+                status == request.status &&
+                Objects.equals(destProfile, request.destProfile) &&
+                Objects.equals(ownerProfile, request.ownerProfile) &&
+                Objects.equals(responderProfile, request.responderProfile) &&
+                Arrays.equals(billPhoto, request.billPhoto) &&
+                Arrays.equals(bagsPhoto, request.bagsPhoto);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, category, priority, location, description, onlyPreviousHelpers, created, status
+                , destProfile, ownerProfile, responderProfile, purchaseSum);
+        result = 31 * result + Arrays.hashCode(billPhoto);
+        result = 31 * result + Arrays.hashCode(bagsPhoto);
+        return result;
+    }
 }

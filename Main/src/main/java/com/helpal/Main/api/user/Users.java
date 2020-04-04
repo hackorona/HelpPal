@@ -34,8 +34,7 @@ public class Users {
     @GetMapping
     @ApiOperation(value = "List all available Users", response = List.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved list"),
-    })
+            @ApiResponse(code = 200, message = "Successfully retrieved list")})
     List<User> getAll() {
         return userService.getAllUsers();
     }
@@ -50,11 +49,10 @@ public class Users {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Retrieve a new User by id")
+    @ApiOperation(value = "Retrieve a User by id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved User"),
-            @ApiResponse(code = 404, message = "User not found")
-    })
+            @ApiResponse(code = 404, message = "User not found")})
     ResponseEntity<User> getOne(
             @ApiParam(value = "Id of the User to be retrieved", required = true)
             @PathVariable String id)
@@ -78,8 +76,7 @@ public class Users {
     @ApiOperation(value = "Update User's data by id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated User's data"),
-            @ApiResponse(code = 404, message = "User not found")
-    })
+            @ApiResponse(code = 404, message = "User not found")})
     ResponseEntity<User> update(
             @ApiParam(value = "User object to update", required = true)
             @Valid
@@ -95,9 +92,7 @@ public class Users {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete a User by id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully deleted the User"),
-            @ApiResponse(code = 404, message = "User not found")
-    })
+            @ApiResponse(code = 200, message = "Successfully deleted the User")})
     ResponseEntity<String> deleteById(
             @ApiParam(value = "Id of the User to be deleted", required = true)
             @PathVariable String id)

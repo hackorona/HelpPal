@@ -230,7 +230,7 @@ public class User implements Serializable {
                 Objects.equals(email, user.email) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
                 Objects.equals(address, user.address) &&
-                Objects.equals(coords, user.coords) &&
+                Objects.equals(coord, user.coord) &&
                 Arrays.equals(image, user.image) &&
                 language == user.language &&
                 Objects.equals(cases, user.cases) &&
@@ -242,7 +242,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, name, email, phoneNumber, address, coords, language, smsNotification, cases,
+        int result = Objects.hash(id, name, email, phoneNumber, address, coord, language, smsNotification, cases,
                 badge, birthYear, password, score, lastStatusChanged, isConfirmedCovid19);
         result = 31 * result + Arrays.hashCode(image);
         return result;
@@ -256,7 +256,7 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
-                ", coords=" + coords +
+                ", coord=" + coord +
                 ", image=" + Arrays.toString(image) +
                 ", language=" + language +
                 ", smsNotification=" + smsNotification +
