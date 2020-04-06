@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.helpal.model.request.Request;
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -21,8 +24,9 @@ public class Coord implements Serializable {
     @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private String id;
 
-    @OneToMany
-    private Set<Request> requests;
+    @JoinTable
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Request> requests = new HashSet<>();
 
     private double x;
 
@@ -40,6 +44,13 @@ public class Coord implements Serializable {
         this.id = UUID.randomUUID().toString();
         this.x = lon;
         this.y = lat;
+    }
+
+    public Coord(Set<Request> requests, double x, double y) {
+        this();
+        this.requests = requests;
+        this.x = x;
+        this.y = y;
     }
 
     public String getId() {

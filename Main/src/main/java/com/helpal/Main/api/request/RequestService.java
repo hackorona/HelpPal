@@ -7,7 +7,6 @@ import com.helpal.model.request.Request;
 import com.helpal.model.request.RequestRepository;
 import com.helpal.model.user.User;
 import com.helpal.model.user.UserRepository;
-import org.locationtech.spatial4j.shape.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class RequestService {
         Request retVal = null;
 
         try {
-            retVal = requestRepository.saveAndFlush(request);
+            retVal = requestRepository.save(request);
         } catch (Exception e) {
             throw new RequestNotFoundException(e.getMessage());
         }

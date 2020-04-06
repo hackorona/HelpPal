@@ -37,7 +37,7 @@ public class Requests {
         return requestService.getAllRequests();
     }
 
-    @GetMapping(name = "/distance", params = {"userId", "distance"})
+    @GetMapping(value = "/distance", params = {"userId", "distance"})
     @ApiOperation(value = "List all available Requests from to a given distance of a given User",
             response = List.class)
     public List<Request> getAllWithinDistance(

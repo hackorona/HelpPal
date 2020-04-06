@@ -2,12 +2,9 @@ package com.helpal.geo;
 
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.distance.DistanceCalculator;
+import org.locationtech.spatial4j.distance.DistanceUtils;
 import org.locationtech.spatial4j.shape.Point;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Service
 public class DistanceUtil {
@@ -33,9 +30,10 @@ public class DistanceUtil {
 //        return retVal;
 //    }
 
-    public Boolean isPointWithinDistance(Point a, Point b, Double distance){
+    public Boolean isPointWithinDistance(Point a, Point b, Double distance) {
         DistanceCalculator distCalc = SpatialContext.GEO.getDistCalc();
 
-        return (distCalc.distance(a,b) <= distance);
+
+        return (distCalc.distance(a, b) * DistanceUtils.DEG_TO_KM <= distance);
     }
 }

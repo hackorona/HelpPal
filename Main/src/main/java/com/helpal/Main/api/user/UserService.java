@@ -19,7 +19,7 @@ public class UserService {
     public User saveUser(User user) {
         User retVal = null;
         try {
-            retVal = repository.saveAndFlush(user);
+            retVal = repository.save(user);
         } catch (DataIntegrityViolationException e) {
             throw new UserNotCreatedException(e.getMessage());
         }

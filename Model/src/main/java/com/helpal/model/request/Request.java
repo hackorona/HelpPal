@@ -7,9 +7,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -35,7 +37,7 @@ public class Request implements Serializable {
     @ApiModelProperty(notes = "Priority")
     private Priority priority;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @ApiModelProperty(notes = "Coordinates")
     private Coord coord;
 
@@ -53,7 +55,7 @@ public class Request implements Serializable {
 
     @ApiModelProperty(notes = "Request's destination user profile")
     @OneToOne
-    @JoinColumn(referencedColumnName = "id", nullable = false)
+    @JoinColumn(referencedColumnName = "id")
     private User destProfile;
 
     @ApiModelProperty(notes = "Request creator user profile", required = true)
@@ -63,7 +65,7 @@ public class Request implements Serializable {
 
     @ApiModelProperty(notes = "3rd Party User profile")
     @OneToOne
-    @JoinColumn(referencedColumnName = "id", nullable = false)
+    @JoinColumn(referencedColumnName = "id")
     private User responderProfile;
 
     @ApiModelProperty(notes = "Shopping bag receipt's photo")
