@@ -1,6 +1,6 @@
 package com.helpal.model.request;
 
-public enum Cetegories {
+public enum Categories {
     SUPERMARKET,
     MEDICINE,
     DOG_WALKING,

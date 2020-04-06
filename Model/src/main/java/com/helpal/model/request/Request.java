@@ -32,10 +32,10 @@ public class Request implements Serializable {
     private String id;
 
     @ApiModelProperty(notes = "Category")
-    private Cetegories category;
+    private Categories category = Categories.SUPERMARKET;
 
     @ApiModelProperty(notes = "Priority")
-    private Priority priority;
+    private Priority priority = Priority.NONE;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @ApiModelProperty(notes = "Coordinates")
@@ -51,7 +51,7 @@ public class Request implements Serializable {
     private LocalDateTime created = LocalDateTime.now();
 
     @ApiModelProperty(notes = "Request status")
-    private RequestStatus status;
+    private RequestStatus status = RequestStatus.OPEN;
 
     @ApiModelProperty(notes = "Request's destination user profile")
     @OneToOne
@@ -75,7 +75,7 @@ public class Request implements Serializable {
     private byte[] bagsPhoto;
 
     @ApiModelProperty(notes = "Purchase amount")
-    private double purchaseSum = 0D;
+    private Double purchaseSum = 0D;
 
     public Request() {
         this.id = UUID.randomUUID().toString();
@@ -89,11 +89,11 @@ public class Request implements Serializable {
         return id;
     }
 
-    public Cetegories getCategory() {
+    public Categories getCategory() {
         return category;
     }
 
-    public void setCategory(Cetegories category) {
+    public void setCategory(Categories category) {
         this.category = category;
     }
 

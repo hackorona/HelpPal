@@ -57,13 +57,13 @@ public class User implements Serializable {
     private boolean smsNotification = true;
 
     @ApiModelProperty(notes = "User request count")
-    private Long cases;
+    private Long cases = 0L;
 
     @ApiModelProperty(notes = "Does user have a badge?")
     private boolean badge;
 
     @ApiModelProperty(notes = "User birth year")
-    private int birthYear;
+    private Integer birthYear = 0;
 
     @ApiModelProperty(notes = "User encrypted password")
     private String password;

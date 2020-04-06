@@ -28,9 +28,9 @@ public class Coord implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Request> requests = new HashSet<>();
 
-    private double x;
+    private double x = 0;
 
-    private double y;
+    private double y = 0;
 
     public Coord() {
         this.id = UUID.randomUUID().toString();
